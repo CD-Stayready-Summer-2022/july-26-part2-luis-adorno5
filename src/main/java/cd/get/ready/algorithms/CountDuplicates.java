@@ -1,7 +1,7 @@
 package cd.get.ready.algorithms;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class CountDuplicates {
     /**
@@ -10,23 +10,7 @@ public class CountDuplicates {
      * @return
      */
     public Integer countDuplicates(String[] input){
-        Map<String, Integer> count = new HashMap<String, Integer>();
-        for(String s : input){
-            if(count.containsKey(s))
-                count.put(s, count.get(s) + 1);
-            else
-                count.put(s, 1);
-        }
-        return countRepeated(count);
-    }
-
-    private Integer countRepeated(Map<String, Integer> map){
-        int result = 0;
-        for(Map.Entry<String, Integer> entry : map.entrySet()){
-            if(entry.getValue() > 1)
-                result++;
-        }
-        return result;
+        return getNumberOfDuplicates(input);
     }
 
     /**
@@ -35,22 +19,12 @@ public class CountDuplicates {
      * @return
      */
     public Integer countDuplicates(Integer[] input){
-        Map<Integer, Integer> count = new HashMap<Integer, Integer>();
-        for(Integer s : input){
-            if(count.containsKey(s))
-                count.put(s, count.get(s) + 1);
-            else
-                count.put(s, 1);
-        }
-        return countRepeatedIntegers(count);
+        return getNumberOfDuplicates(input);
     }
 
-    private Integer countRepeatedIntegers(Map<Integer, Integer> map){
-        int result = 0;
-        for(Map.Entry<Integer, Integer> entry : map.entrySet()){
-            if(entry.getValue() > 1)
-                result++;
-        }
-        return result;
+    private Integer getNumberOfDuplicates(Object[] input){
+        return Arrays.stream(input)
+                .filter(s -> Collections.frequency(List.of(input), s) > 1)
+                .collect(Collectors.toSet()).size();
     }
 }
